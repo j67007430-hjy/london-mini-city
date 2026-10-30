@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#e9e9db" />
+<title>London in Miniature · A Day in the City</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+:root{--forest:#29463c;--olive:#788a73;--cream:#f2f0e7;--ink:#273c35;--muted:#6c796f}*{box-sizing:border-box}html,body{height:100%;margin:0}body{background:#e6e9dc;color:var(--ink);font-family:'DM Sans',system-ui,'PingFang SC',sans-serif;overflow:hidden}button,a{font:inherit}button{cursor:pointer}.shell{display:flex;flex-direction:column;height:100dvh;min-height:500px}.header{position:absolute;z-index:5;top:0;left:0;right:0;pointer-events:none;padding:30px max(24px,4.8vw) 0;display:flex;justify-content:space-between;align-items:start;gap:20px}.brand,.nav{pointer-events:auto}.eyebrow{letter-spacing:.25em;font-size:10px;font-weight:700;color:#667c6d}.brand h1{font-family:Georgia,'Times New Roman',serif;font-weight:500;text-transform:uppercase;letter-spacing:.11em;font-size:clamp(22px,3.6vw,47px);margin:5px 0 6px}.brand p{font-size:12px;color:#6c8173;margin:0;letter-spacing:.06em}.nav{display:flex;align-items:center;gap:8px;background:#f5f3eaca;border:1px solid #fff9;padding:5px;border-radius:30px;box-shadow:0 8px 28px #5d76601b}.nav button{border:0;border-radius:30px;padding:9px 14px;background:transparent;color:#566c5b;font-size:12px}.nav button.active{background:#607c67;color:white}.map-viewport{position:absolute;inset:0;background:linear-gradient(180deg,#e9eee7 0%,#cedbc6 54%,#bcccae 100%)}.map-viewport:after{content:'';position:absolute;pointer-events:none;inset:0;background:radial-gradient(ellipse at 52% 55%,transparent 45%,#d8e1d51a 82%,#a9baaa50 100%)}svg{width:100%;height:100%;touch-action:none;cursor:grab}svg:active{cursor:grabbing}.building{cursor:pointer;outline:0;transition:filter .2s}.building:hover,.building:focus{filter:brightness(1.1) drop-shadow(0 0 9px #fdfde8)}.marker-text{font-weight:700;letter-spacing:.14em;paint-order:stroke;stroke:#e7eada;stroke-width:3;stroke-linejoin:round;fill:#32493d;font-size:16px}.marker-num{font-size:12px;fill:#fff;font-weight:700}.footer{position:absolute;bottom:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:end;padding:25px max(24px,4.8vw) 25px;pointer-events:none;gap:15px}.footer>*{pointer-events:auto}.legend{font-size:11px;font-weight:700;letter-spacing:.17em;color:#526a59;line-height:1.9}.legend .line{display:inline-block;width:25px;height:2px;background:#e8e3cc;border-top:1px dashed #748c79;vertical-align:middle;margin:0 10px}.credit{font-size:11px;color:#667b6a}.card{position:absolute;z-index:10;right:max(24px,4.8vw);bottom:78px;width:min(320px,calc(100vw - 48px));background:#f6f5ebf5;border:1px solid #fff;box-shadow:0 15px 45px #344c3e38;padding:23px;border-radius:14px;transform:translateY(0);transition:opacity .2s,transform .2s}.card[hidden]{display:none}.card .kicker{font-size:11px;letter-spacing:.2em;font-weight:700;color:#79927d}.card h2{font-family:Georgia,serif;font-size:25px;margin:9px 0 10px;font-weight:500}.card p{font-size:13px;color:#67766c;line-height:1.6;margin:0 0 17px}.card a{display:inline-flex;text-decoration:none;background:#375545;color:white;font-size:12px;padding:11px 15px;border-radius:7px}.close{position:absolute;right:12px;top:11px;border:0;background:transparent;color:#607368;font-size:22px}.help{position:absolute;left:50%;bottom:29px;transform:translateX(-50%);z-index:4;background:#f5f3e8dc;padding:9px 14px;border-radius:20px;font-size:11px;letter-spacing:.05em;color:#53695b;white-space:nowrap;pointer-events:none}.actions{display:flex;gap:7px}.reset{position:absolute;right:max(24px,4.8vw);top:100px;z-index:6;background:#f7f4eae8;border:1px solid #fff;border-radius:30px;color:#496451;padding:10px 14px;font-size:12px;cursor:pointer}@media(max-width:650px){.header{padding:21px 20px}.brand h1{font-size:24px;letter-spacing:.07em}.brand p{font-size:10px;max-width:220px}.nav{position:absolute;right:20px;top:98px}.nav button{padding:8px 11px}.reset{top:148px;right:20px}.footer{padding:17px 20px}.help{bottom:68px}.card{bottom:130px;right:20px}.credit{display:none}.legend{font-size:9px}}
+
+/* Google Maps upgrade */
+.mode-switch{position:absolute;z-index:8;top:111px;left:max(24px,4.8vw);display:flex;gap:6px;padding:5px;border-radius:50px;background:#f6f5eced;box-shadow:0 9px 25px #314a3b28}
+.mode-switch button{border:0;border-radius:24px;padding:11px 16px;background:none;color:#446250;font-size:12px;font-weight:700}.mode-switch button.on{background:#456954;color:#fff}
+.real-map{position:absolute;inset:0;background:#d5ded0;z-index:2}.real-map[hidden]{display:none}#googleMap{position:absolute;inset:0}.map-state{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);max-width:340px;width:calc(100% - 35px);background:#f8f8f0f5;border-radius:18px;padding:23px;text-align:center;box-shadow:0 18px 40px #384c3540}.map-state[hidden]{display:none}.map-state h3{font-family:Georgia,serif;font-size:24px;font-weight:500;margin:0 0 10px}.map-state p{font-size:13px;line-height:1.7;color:#607467}.map-state input{width:100%;border:1px solid #bac9b5;border-radius:8px;padding:11px;background:white;font-size:12px}.map-state button{background:#41654e;color:white;border:0;border-radius:8px;padding:11px 17px;margin-top:10px}.map-state small{font-size:10px;color:#6f7d73;display:block;margin-top:10px;line-height:1.55}.map-error{font-size:12px;color:#9b4c40}
+.stop-list{position:absolute;z-index:8;left:max(24px,4.8vw);top:175px;max-height:calc(100vh - 265px);overflow:auto;width:255px;padding:8px;background:#f8f8f1f2;border-radius:14px;box-shadow:0 10px 28px #344f3b35}.stop-list[hidden]{display:none}.stop-item{display:flex;align-items:center;text-align:left;gap:10px;padding:10px;border:0;background:transparent;color:#355441;width:100%;border-radius:8px;font-size:12px;cursor:pointer}.stop-item:hover,.stop-item.active{background:#e1e9dc}.stop-item b{background:#63836c;border-radius:50%;width:25px;height:25px;color:white;display:grid;place-items:center;font-size:10px;flex-shrink:0}.stop-item span small{display:block;font-size:9px;letter-spacing:.08em;color:#819183;margin-top:4px}
+.card{z-index:14}.card .actions{display:flex;flex-wrap:wrap;gap:7px}.card .actions a{flex:1;justify-content:center;white-space:nowrap;text-align:center}.card .actions a.secondary{background:#e4eadd;color:#355942}.card .small-note{font-size:11px;color:#8a7760;margin-top:12px;line-height:1.4}.pin3d{border:2px solid #fff;background:#3c654a;color:#fff;width:35px;height:35px;border-radius:10px 10px 10px 2px;display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 3px 10px #1f403857;transform:rotate(-12deg);font-size:12px}.pin3d>span{transform:rotate(12deg)}
+@media(max-width:650px){.mode-switch{left:20px;top:144px}.mode-switch button{padding:9px 11px}.stop-list{left:12px;top:auto;bottom:20px;max-height:150px;width:calc(100vw - 24px);display:flex;overflow-x:auto;gap:4px}.stop-list[hidden]{display:none}.stop-item{min-width:145px;width:145px}.card{bottom:188px;right:12px;width:calc(100vw - 24px);padding:17px}.real-map .map-state{top:50%}.reset{top:190px}.nav{top:98px}.footer:has(~ .real-map:not([hidden])){display:none}}
+
+.add-place-btn {
+  position: absolute;
+  top: 150px;
+  right: max(24px, 4.8vw);
+  z-index: 8;
+  padding: 12px 18px;
+  background: #f6f5eb;
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+  color: #29463c;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 25px #344c3e25;
+}
+
+.add-place-btn:hover {
+  background: #607c67;
+  color: white;
+}
+
+@media(max-width:650px) {
+  .add-place-btn {
+    top: 195px;
+    right: 20px;
+  }
+}
+
+
+.delete-place-btn {
+  display: block;
+  margin-top: 12px;
+  padding: 11px 16px;
+  background: transparent;
+  border: 1px solid #b9857c;
+  border-radius: 8px;
+  color: #a8645b;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.delete-place-btn:hover {
+  background: #a8645b;
+  color: white;
+}
+
+.stop-item {
+  cursor: grab;
+  user-select: none;
+}
+
+.stop-item::after{content:'⠿';margin-left:auto;color:#8b9d8b;font-size:17px;opacity:.65}
+.stop-item:active {
+  cursor: grabbing;
+}
+
+.stop-chosen {
+  background: #e1e9db !important;
+  box-shadow: 0 8px 20px rgba(41,70,60,.15);
+}
+
+.stop-ghost {
+  opacity: .35;
+  background: #bdcdb9 !important;
+}
+
+/* Simple garden-green street routes */
+.route-controls{position:absolute;z-index:13;top:240px;right:max(24px,4.8vw);width:min(285px,calc(100vw - 36px));padding:13px;background:#f7f7edee;border:1px solid #fff;border-radius:16px;box-shadow:0 10px 32px #344d3e25;color:#29463c}
+.route-controls[hidden]{display:none}.route-controls .route-heading{font-size:10px;letter-spacing:.17em;font-weight:700;margin-bottom:10px}
+.route-switch{display:flex;gap:5px}.route-switch button{flex:1;border:0;border-radius:8px;background:#e5eadf;color:#44624c;padding:10px 5px;font-size:11px;font-weight:700}.route-switch button.active{color:white;background:#557a5d}
+.route-summary{font-size:11px;line-height:1.55;color:#607366;margin:10px 0 0}.route-status{font-size:11px;color:#7f806d;margin-top:8px;line-height:1.45}
+@media(max-width:650px){.route-controls{top:235px;right:12px;width:220px;padding:10px}.route-switch button{font-size:10px}.stop-list{bottom:20px}}
+</style>
+</head>
+<body><div class="shell"><div class="map-viewport"><svg id="scene" viewBox="0 0 1400 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="伦敦一日游低多边形立体地图，九个目的地按游览顺序排列"></svg></div>
+<header class="header"><div class="brand"><div class="eyebrow">A LITTLE LONDON JOURNEY · 31 OCT 2026</div><h1>London in Miniature</h1><p>Nine little places · one lovely day</p></div><nav class="nav"><button id="dayBtn" class="active">☀ DAY</button><button id="nightBtn">☾ DUSK</button></nav></header>
+<div class="mode-switch"><button id="miniMode" class="on">🌿 3D 微缩城市</button><button id="realMode">📍 真实地图</button></div>
+<div class="real-map" id="realMap" hidden><div id="googleMap"></div><div class="map-state" id="mapState"><h3>Connect your London map</h3><p>输入你自己创建的 Google Maps API Key，即可在真实地图中高亮这 9 个地点。</p><input type="password" id="apiInput" placeholder="粘贴 API Key（仅本次页面使用）" autocomplete="off"><button id="connectMap">连接 Google Maps</button><p id="mapError" class="map-error"></p><small>无需把密钥发给任何人。请在 Google Cloud 仅允许你的网站来源和所需 API。</small></div></div><aside class="stop-list" id="stopList" hidden></aside>
+
+<button id="addPlaceBtn" class="add-place-btn">
+  + ADD A PLACE
+</button>
+
+<section class="route-controls" id="routeControls" hidden aria-label="路线规划">
+ <div class="route-heading">🌿 YOUR GREEN ROUTE</div>
+ <div class="route-switch"><button type="button" id="routeManual" class="active">按 Stop 顺序</button><button type="button" id="routeFast">优化时间</button></div>
+ <p class="route-summary" id="routeSummary">地图加载后，沿真实街道绘制绿色路线。</p>
+ <div class="route-status" id="routeStatus" aria-live="polite">步行模式 · 第一站和最后一站固定</div>
+</section>
+<button class="reset" id="reset">↺ RESET VIEW</button><div class="help">DRAG TO EXPLORE · SCROLL TO ZOOM · TAP A BUILDING</div>
+<footer class="footer"><div class="legend">01 — 09 <span class="line"></span> MAYFAIR / SOHO / COVENT GARDEN / VAUXHALL<br>SCHEMATIC MAP · NOT TO SCALE</div><div class="credit">MADE FOR YOUR LONDON DAY OUT ♡</div></footer>
+<div class="card" id="card" hidden><button class="close" id="close" aria-label="关闭">×</button><div class="kicker" id="placeNum"></div><h2 id="placeName"></h2><p id="placeDesc"></p><div class="actions"><a id="placeLink" href="#" target="_blank" rel="noopener noreferrer">查看店铺 ↗</a><a id="walkLink" class="secondary" href="#" target="_blank" rel="noopener noreferrer">🚶 步行</a><a id="transitLink" class="secondary" href="#" target="_blank" rel="noopener noreferrer">🚇 公共交通</a></div>
+<button id="deletePlaceBtn" class="delete-place-btn">
+  DELETE PLACE
+</button>
+<div class="small-note" id="placeHint">交通时间请以 Google Maps 实时显示为准。</div></div></div>
+<script>
+const svg=document.getElementById('scene');const NS='http://www.w3.org/2000/svg';
+let spots=[
+{name:'Réalisation Par',area:'MAYFAIR',sub:'Designer boutique · Mount Street',query:'Réalisation Par 95 Mount Street London',x:265,y:326,w:102,h:78,height:100,c:'#c58b7d',roof:'#e2b1a4',type:'shop'},
+{name:'Paloma Wool',area:'MAYFAIR',sub:'Independent fashion label · check store location',query:'Paloma Wool London shop',x:480,y:248,w:110,h:85,height:115,c:'#b5a6a0',roof:'#e4d3cc',type:'atelier'},
+{name:'House of CB',area:'OXFORD STREET',sub:'Fashion boutique · Oxford Street',query:'House of CB 225 Oxford Street London',x:722,y:258,w:126,h:91,height:157,c:'#b8a48d',roof:'#dfc9a9',type:'tower'},
+{name:'Cubitts',area:'SOHO',sub:'Eyewear boutique · Soho',query:'Cubitts Soho London',x:954,y:338,w:107,h:77,height:96,c:'#83a69d',roof:'#a8c9b5',type:'shop'},
+{name:'La Maritxu',area:'SOHO',sub:'Basque cheesecake · Kingly Street',query:'La Maritxu 10 Kingly Street London',x:1120,y:493,w:106,h:81,height:94,c:'#c8997b',roof:'#e9c2a3',type:'cafe'},
+{name:'Gelupo',area:'SOHO',sub:'Gelato stop · Archer Street',query:'Gelupo 7 Archer Street London',x:955,y:641,w:97,h:72,height:93,c:'#a5b2c8',roof:'#d2d8e2',type:'cafe'},
+{name:'Covent Garden',area:'COVENT GARDEN',sub:'The piazza · shops and street performances',query:'Covent Garden Piazza London',x:703,y:687,w:157,h:111,height:98,c:'#adba9d',roof:'#d5d9b3',type:'market'},
+{name:'Amorino',area:'COVENT GARDEN',sub:'Flower-shaped gelato · Garrick Street',query:'Amorino 7 Garrick Street London',x:462,y:733,w:95,h:76,height:93,c:'#d1aa90',roof:'#eccbb1',type:'cafe'},
+{name:'Brunswick House',area:'VAUXHALL · 18:30',sub:'Dinner · 30 Wandsworth Road · booking not confirmed',query:'Brunswick House 30 Wandsworth Road London',x:268,y:840,w:143,h:93,height:133,c:'#b4a38d',roof:'#dbceae',type:'restaurant'}];
+function el(tag,attrs={},parent=svg){let n=document.createElementNS(NS,tag);for(let [k,v] of Object.entries(attrs))n.setAttribute(k,v);parent.appendChild(n);return n}function path(d,attrs={},par=svg){return el('path',{d,...attrs},par)}function poly(pts,fill,par,extra={}){return el('polygon',{points:pts.map(p=>p.join(',')).join(' '),fill,...extra},par)}
+let defs=el('defs');let grad=el('linearGradient',{id:'ground',x1:'0',y1:'0',x2:'0',y2:'1'},defs);el('stop',{offset:'0%', 'stop-color':'#dfe7d9'},grad);el('stop',{offset:'100%', 'stop-color':'#b8caae'},grad);let f=el('filter',{id:'shade',x:'-40%',y:'-40%',width:'180%',height:'200%'},defs);el('feGaussianBlur',{stdDeviation:'15'},f);
+let world=el('g',{id:'world'});el('rect',{x:-300,y:-300,width:2100,height:1700,fill:'url(#ground)'},world);
+function hill(d,c){path(d,{fill:c,opacity:.65},world)}hill('M-300 0 Q170 80 440 16 T1060 54 T1760 -30 V180 H-300Z','#cbdac9');hill('M-300 95 Q150 40 370 115 T920 105 T1800 60 V280 H-300Z','#b7cbb7');hill('M-300 235 Q200 195 460 270 T1000 240 T1700 210 V460 H-300Z','#a3bcaa');hill('M-300 470 Q230 410 575 490 T1420 430 T1800 510 V1400 H-300Z','#acc09b');hill('M-300 750 Q360 650 850 780 T1800 730 V1400 H-300Z','#9fb58f');
+// Atmospheric topographic marks
+for(let i=0;i<38;i++){let x=((i*177+79)%1550)-70,y=((i*113+87)%1030);path(`M${x} ${y} q15 -8 31 0`,{stroke:'#91a993','stroke-width':1,opacity:.18,fill:'none'},world)}
+function tree(x,y,s=1,shade='#54765b'){let g=el('g',{transform:`translate(${x} ${y}) scale(${s})`},world);el('ellipse',{cx:8,cy:8,rx:23,ry:10,fill:'#496e5450'},g);path('M0 0 L0 -36',{stroke:'#685f45','stroke-width':6},g);poly([[-17,-31],[-11,-56],[1,-72],[13,-56],[18,-30],[3,-18]],shade,g);poly([[1,-72],[13,-56],[18,-30],[3,-18],[1,-38]],'#395d4e',g);poly([[-17,-31],[-11,-56],[1,-72],[1,-38]],'#78946e',g)}
+for(let i=0;i<105;i++){let x=45+(i*193)%1340,y=120+(i*131)%900;if(spots.some(p=>Math.hypot(p.x-x,p.y-y)<110))continue;tree(x,y,.32+((i*7)%9)/16,['#66866a','#7e9b79','#506f5b','#8a9b76'][i%4])}
+// Soft meadow ornamental flowers
+for(let i=0;i<190;i++){let x=(i*89+13)%1430,y=(i*173+56)%1010;if(spots.some(p=>Math.hypot(p.x-x,p.y-y)<95))continue;el('circle',{cx:x,cy:y,r:1.5+(i%4)*.65,fill:['#e9ddc6','#f4f0d8','#c1c69c','#9bafb0'][i%4],opacity:.7},world)}
+// Scenic raised pale route
+
+const routeLayer = el('g', {id: 'dynamicRoute'}, world);
+
+function drawRoute() {
+  routeLayer.replaceChildren();
+
+  const locs = spots.map(p => [p.x, p.y]);
+
+  if (locs.length < 2) return;
+
+  let curve = `M ${locs[0][0]} ${locs[0][1]}`;
+
+  for (let i = 1; i < locs.length; i++) {
+    const a = locs[i - 1];
+    const b = locs[i];
+    const mx = (a[0] + b[0]) / 2;
+
+    curve += ` C ${mx} ${a[1]}, ${mx} ${b[1]}, ${b[0]} ${b[1]}`;
+  }
+
+  path(curve, {
+    fill: 'none',
+    stroke: '#6a785f',
+    opacity: .18,
+    'stroke-width': 40,
+    'stroke-linecap': 'round'
+  }, routeLayer);
+
+  path(curve, {
+    fill: 'none',
+    stroke: '#e5e4cf',
+    'stroke-width': 28,
+    'stroke-linecap': 'round'
+  }, routeLayer);
+
+  path(curve, {
+    fill: 'none',
+    stroke: '#faf4e2',
+    'stroke-width': 21,
+    'stroke-linecap': 'round',
+    'stroke-dasharray': '2 11',
+    opacity: .85
+  }, routeLayer);
+}
+
+// buildings in scene front-to-back sorted by depth
+function building(s,i){let {x,y,w,h,height,c,roof,type}=s;let g=el('g',{class:'building',tabindex:0,role:'button','aria-label':`${i+1}. ${s.name}`},world);let bx=x,by=y,dx=w*.58,dy=w*.23; // diamond footprint
+el('ellipse',{cx:bx+8,cy:by+16,rx:w*.85,ry:w*.34,fill:'#4d6956',opacity:.22,filter:'url(#shade)'},g);
+let top=[[bx,by-height],[bx+dx,by-height-dy],[bx+dx+w*.66,by-height-dy+h*.42],[bx+w*.66,by-height+h*.42]];
+let left=[[bx,by-height],[bx+w*.66,by-height+h*.42],[bx+w*.66,by+h*.42],[bx,by]];
+let right=[[bx+w*.66,by-height+h*.42],[bx+dx+w*.66,by-height-dy+h*.42],[bx+dx+w*.66,by-dy+h*.42],[bx+w*.66,by+h*.42]];
+poly(left,c,g);poly(right,'#6f8070',g);poly(top,roof,g,{stroke:'#e5d9bb','stroke-width':2});
+// roof inset patterns
+if(type==='market'){for(let j=0;j<5;j++){let t=j/5,xa=bx+t*w*.66;path(`M${xa} ${by-height+t*h*.42} l${dx} ${-dy}`,{stroke:'#819e87','stroke-width':3,opacity:.65},g)}path(`M${bx} ${by-height} L${bx+dx+w*.66} ${by-height-dy+h*.42}`,{stroke:'#fff5d8','stroke-width':3,opacity:.7},g)}
+else if(type==='restaurant'){poly([[bx+16,by-height-5],[bx+dx+14,by-height-dy-5],[bx+dx+w*.66-14,by-height-dy+h*.42-5],[bx+w*.66-14,by-height+h*.42-5]],'#e7d9c0',g)}
+else{path(`M${bx+15} ${by-height-7} l${dx-7} ${-dy+4}`,{stroke:'#f6e4c4',opacity:.55,'stroke-width':2},g)}
+// fenestration fronts left + right, pseudo 3D perspective
+for(let row=0;row<Math.max(1,Math.floor(height/37));row++){let z=by-23-row*32;for(let col=0;col<3;col++){let px=bx+13+col*19,pY=z+(px-bx)*h*.42/(w*.66);poly([[px,pY-16],[px+11,pY-13],[px+11,pY],[px,pY-3]],'#f4e3ba',g,{opacity:.94});path(`M${px+5.5} ${pY-15} v13`,{stroke:'#8c8a70','stroke-width':1},g)}for(let col=0;col<2;col++){let px=bx+w*.66+12+col*21,pY=z+h*.42-(px-(bx+w*.66))*dy/dx;poly([[px,pY-13],[px+11,pY-17],[px+11,pY-2],[px,pY+1]],'#b9c9b5',g,{opacity:.89})}}
+if(type==='cafe'){let yy=by-24;poly([[bx+2,yy-13],[bx+w*.66,yy-13+h*.42],[bx+w*.66,yy-2+h*.42],[bx+2,yy-2]],'#f3ead8',g);for(let t=0;t<4;t++){let xx=bx+3+t*(w*.66-3)/4;poly([[xx,yy-13+((xx-bx)/(w*.66))*h*.42],[xx+10,yy-13+((xx-bx)/(w*.66))*h*.42+5],[xx+10,yy+2+((xx-bx)/(w*.66))*h*.42+5],[xx,yy+2+((xx-bx)/(w*.66))*h*.42]],t%2?'#d8b79f':'#eee7d6',g)}}
+// Door and steps
+poly([[bx+w*.25,by-22],[bx+w*.40,by-16],[bx+w*.40,by+14],[bx+w*.25,by+7]],'#3d5e4d',g);path(`M${bx+w*.25} ${by+8} l-12 7 l19 7`,{fill:'none',stroke:'#dfdbc5','stroke-width':5},g);
+// Anchored route label and number: text sits BELOW building so clear
+el('ellipse',{cx:bx+dx*.34,cy:by+34,rx:15,ry:10,fill:'#334c40'},g);el('text',{x:bx+dx*.34,y:by+38,'text-anchor':'middle',class:'marker-num'},g).textContent=String(i+1).padStart(2,'0');let textX=bx+dx*.34, textY=by+62;el('text',{x:textX,y:textY,'text-anchor':'middle',class:'marker-text'},g).textContent=s.name.toUpperCase();
+g.addEventListener('click',e=>{e.stopPropagation();select(i)});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i)}});return g}
+
+function renderCity() {
+
+  // Remove old buildings
+  world.querySelectorAll('.building')
+    .forEach(node => node.remove());
+
+  // Recalculate every building's position
+  spots.forEach((spot, i) => {
+
+    const row = Math.floor(i / 4);
+    const col = i % 4;
+
+    // Alternate left-to-right and right-to-left
+    const reverse = row % 2 === 1;
+
+    spot.x = reverse
+      ? 1010 - col * 250
+      : 260 + col * 250;
+
+    spot.y = 270 + row * 240 + (col % 2) * 40;
+
+  });
+
+  // Update the connecting road
+  drawRoute();
+
+  // Draw the buildings again
+  spots.forEach((spot, i) => {
+    building(spot, i);
+  });
+
+}
+
+// Draw the initial city
+renderCity();
+
+document.getElementById('addPlaceBtn')
+  .addEventListener('click', function() {
+
+  const name = prompt('Enter a new place name:');
+
+  if (!name || !name.trim()) return;
+
+  const n = spots.length;
+
+  const newSpot = {
+    name: name.trim(),
+    area: 'NEW STOP',
+
+    sub: 'New place · Click to view',
+    query: name.trim() + ' London',
+    x: 260 + (n % 4) * 240,
+    y: 260 + Math.floor(n / 4) * 180,
+    w: 105,
+    h: 80,
+    height: 110,
+    c: '#b5a6a0',
+    roof: '#e4d3cc',
+    type: 'shop'
+  };
+
+  spots.push(newSpot);
+  preciseAddresses.push(newSpot.query);
+  geocodedPositions.push(null);
+  renderCity();
+  renderStopList();
+  if(mapsInstance) { refreshMapMarkerIndexes(); drawGreenRoute(); }
+
+  alert(name.trim() + ' has been added!');
+});
+
+// drag and zoom through viewBox (offline, no libraries)
+let view={x:0,y:0,w:1400,h:1000},drag=null;function sync(){svg.setAttribute('viewBox',`${view.x} ${view.y} ${view.w} ${view.h}`)}svg.addEventListener('pointerdown',e=>{if(e.target.closest('.building'))return;drag={x:e.clientX,y:e.clientY,vx:view.x,vy:view.y};svg.setPointerCapture(e.pointerId)});svg.addEventListener('pointermove',e=>{if(!drag)return;let r=svg.getBoundingClientRect();view.x=drag.vx-(e.clientX-drag.x)*view.w/r.width;view.y=drag.vy-(e.clientY-drag.y)*view.h/r.height;sync()});svg.addEventListener('pointerup',()=>drag=null);svg.addEventListener('pointercancel',()=>drag=null);svg.addEventListener('wheel',e=>{e.preventDefault();let factor=e.deltaY>0?1.10:.90,newW=Math.min(2400,Math.max(480,view.w*factor)),newH=view.h*(newW/view.w),r=svg.getBoundingClientRect(),a=(e.clientX-r.left)/r.width,b=(e.clientY-r.top)/r.height;view.x+=(view.w-newW)*a;view.y+=(view.h-newH)*b;view.w=newW;view.h=newH;sync()},{passive:false});document.getElementById('reset').onclick=()=>{view={x:0,y:0,w:1400,h:1000};sync()};
+function select(i){showPlace(i)}document.getElementById('close').onclick=()=>document.getElementById('card').hidden=true;
+let night=false;document.getElementById('nightBtn').onclick=()=>toggle(true);document.getElementById('dayBtn').onclick=()=>toggle(false);function toggle(n){night=n;document.getElementById('dayBtn').classList.toggle('active',!n);document.getElementById('nightBtn').classList.toggle('active',n);document.querySelector('.map-viewport').style.filter=n?'sepia(.18) brightness(.70) hue-rotate(15deg)':'none';document.querySelector('.map-viewport').style.transition='filter .7s';}
+</script>
+<script>
+
+// ========== GOOGLE MAPS CONFIGURATION ==========
+// Optional: paste a restricted browser key below, or use the on-page input.
+const GOOGLE_MAPS_API_KEY = 'PASTE_YOUR_API_KEY_HERE';
+// This map uses Maps JavaScript API and Geocoding API for accurate markers.
+// You can still use the illustration and navigation links with no key.
+const preciseAddresses = [
+  '95 Mount Street, London W1K 2TL, UK',
+  'Paloma Wool London store, 7-8 Conduit Street, London, UK',
+  'House of CB, 225 Oxford Street, London, UK',
+  'Cubitts, Soho, London, UK',
+  'La Maritxu, 10 Kingly Street, London W1B 5PJ, UK',
+  'Gelupo, 7 Archer Street, London, UK',
+  'Covent Garden Piazza, London WC2E 8RF, UK',
+  'Amorino, 7 Garrick Street, London, UK',
+  'Brunswick House, 30 Wandsworth Road, London SW8 2LG, UK'
+];
+let mapsInstance=null, mapMarkers=[], geocodedPositions=[], selectedStop=0, activeMode='mini';
+const $ = id=>document.getElementById(id);
+function directionsUrl(i, mode){
+  const params=new URLSearchParams({api:'1',destination:preciseAddresses[i],travelmode:mode});
+  if(i>0)params.set('origin',preciseAddresses[i-1]);
+  return 'https://www.google.com/maps/dir/?'+params.toString();
+}
+function showPlace(i){
+  const s=spots[i];selectedStop=i;selectedPlaceIndex=i;
+  $('card').hidden=false;
+  $('placeNum').textContent=`STOP ${String(i+1).padStart(2,'0')} / ${String(spots.length).padStart(2,'0')} · ${s.area}`;
+  $('placeName').textContent=s.name;
+  $('placeDesc').textContent=s.sub+' · '+(preciseAddresses[i]||s.query);
+  $('placeLink').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.query);
+  $('walkLink').href=directionsUrl(i,'walking');
+  $('transitLink').href=directionsUrl(i,'transit');
+  $('placeHint').textContent=i===0?'从当前位置前往第一站。导航会在 Google Maps 中打开。':'从上一站前往这里 · 交通时间以 Google Maps 实时结果为准。';
+  document.querySelectorAll('.stop-item').forEach((item,j)=>item.classList.toggle('active',j===i));
+  if(activeMode==='real'&&mapsInstance&&geocodedPositions[i]){
+    mapsInstance.panTo(geocodedPositions[i]);mapsInstance.setZoom(15);
+  }
+}
+function renderStopList(){
+  const list=$('stopList');
+  list.replaceChildren();
+  spots.forEach((spot,i)=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='stop-item';
+    btn.innerHTML='<b>'+String(i+1).padStart(2,'0')+'</b><span></span>';
+    const span=btn.querySelector('span');
+    span.textContent=spot.name;
+    const small=document.createElement('small');
+    small.textContent=spot.area;
+    span.append(small);
+    btn.addEventListener('click',()=>showPlace(spots.indexOf(spot)));
+    list.append(btn);
+  });
+}
+renderStopList();
+function setMode(mode){
+  activeMode=mode;const real=mode==='real';
+  $('realMap').hidden=!real;$('stopList').hidden=!real;$('routeControls').hidden=!real;
+  document.querySelector('.map-viewport').style.display=real?'none':'';
+  $('miniMode').classList.toggle('on',!real);$('realMode').classList.toggle('on',real);
+  $('reset').style.display=real?'none':'';
+  document.querySelector('.help').style.display=real?'none':'';
+  document.querySelector('.footer').style.display=real?'none':'';
+  if(real&&!mapsInstance&&GOOGLE_MAPS_API_KEY!=='PASTE_YOUR_API_KEY_HERE'){
+    loadGoogleMap(GOOGLE_MAPS_API_KEY);
+  }
+}
+$('miniMode').onclick=()=>setMode('mini');$('realMode').onclick=()=>setMode('real');
+$('connectMap').onclick=()=>loadGoogleMap($('apiInput').value.trim());
+$('apiInput').addEventListener('keydown',e=>{if(e.key==='Enter')loadGoogleMap($('apiInput').value.trim())});
+function errorMessage(msg){$('mapError').textContent=msg;}
+async function loadGoogleMap(key){
+  if(!key||key==='PASTE_YOUR_API_KEY_HERE'){errorMessage('请先填写 Google Maps API Key。');return;}
+  if(window._gmLoading)return;
+  window._gmLoading=true;$('connectMap').disabled=true;
+  errorMessage('正在连接 Google Maps…');
+  try {
+    if(!window.google?.maps?.Map){
+      await new Promise((resolve,reject)=>{
+        const script=document.createElement('script');
+        const cb='londonMapReady';
+        window[cb]=()=>{delete window[cb];resolve()};
+        script.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(key)+'&loading=async&v=weekly&callback='+cb;
+        script.async=true;script.onerror=()=>reject(new Error('Google Maps 加载失败：请检查网络、API Key 和网站来源限制。'));
+        document.head.append(script);
+        setTimeout(()=>reject(new Error('连接超时：检查 API 是否启用和账单配置。')),20000);
+      });
+    }
+    mapsInstance=new google.maps.Map($('googleMap'),{
+      center:{lat:51.5115,lng:-0.131},zoom:13,mapTypeControl:false,streetViewControl:false,
+      fullscreenControl:true,styles:[{featureType:'poi',elementType:'labels',stylers:[{visibility:'off'}]}]
+    });
+    $('mapState').hidden=true;
+    // Google geocoder gives actual coordinates. Failed searches are not pinned to a guessed location.
+    const geocoder=new google.maps.Geocoder();
+    const bounds=new google.maps.LatLngBounds();let success=0,failed=[];
+    for(let i=0;i<preciseAddresses.length;i++){
+      try{
+        const res=await geocoder.geocode({address:preciseAddresses[i],region:'GB'});
+        if(!res.results?.length)throw Error('无结果');
+        const location=res.results[0].geometry.location;
+        geocodedPositions[i]=location;bounds.extend(location);success++;
+        const bubble=document.createElement('div');bubble.className='pin3d';
+        const number=document.createElement('span');number.textContent=String(i+1).padStart(2,'0');bubble.append(number);
+        // Built-in Marker works without a separate Map ID.
+        const pin=new google.maps.Marker({map:mapsInstance,position:location,title:spots[i].name,label:{text:String(i+1),color:'#fff',fontWeight:'bold'},icon:{path:google.maps.SymbolPath.CIRCLE,scale:17,fillColor:'#3c654a',fillOpacity:1,strokeColor:'#fff',strokeWeight:2}});
+        pin.addListener('click',()=>showPlace(i));mapMarkers.push(pin);
+      }catch(err){failed.push(spots[i].name);console.warn('Could not locate',spots[i].name,err);}
+    }
+    if(success){mapsInstance.fitBounds(bounds,70);if(success===1)mapsInstance.setZoom(14);}
+    await drawGreenRoute();
+    if(failed.length){
+      $('mapState').hidden=false;
+      $('mapState').querySelector('h3').textContent=success?'部分地点无法定位':'地点坐标暂时无法加载';
+      $('mapState').querySelector('p').textContent='未成功定位：'+failed.join('、')+'。请在 Google Cloud 启用 Geocoding API，并把它加入密钥的 API 允许列表；也可以点击左侧地点名称直接打开 Google Maps。';
+      $('apiInput').style.display='none';$('connectMap').style.display='none';
+      errorMessage('地图已加载 '+success+' / '+spots.length+' 个位置。');
+    }
+  }catch(err){errorMessage(err.message||String(err));}
+  finally{window._gmLoading=false;$('connectMap').disabled=false;}
+}
+
+
+let selectedPlaceIndex = null;
+
+// Remember which building is selected
+const originalSelect = select;
+
+select = function(i) {
+  selectedPlaceIndex = i;
+  originalSelect(i);
+};
+
+// Delete the selected building
+document.getElementById('deletePlaceBtn')
+  .addEventListener('click', function() {
+
+    if (selectedPlaceIndex === null) return;
+
+    const place = spots[selectedPlaceIndex];
+
+    if (!place) return;
+
+    const confirmed = confirm(
+      'Are you sure you want to delete ' +
+      place.name + '?'
+    );
+
+    if (!confirmed) return;
+
+    spots.splice(selectedPlaceIndex, 1);
+
+    selectedPlaceIndex = null;
+    preciseAddresses.splice(selectedStop, 1);
+    geocodedPositions.splice(selectedStop, 1);
+    const removedMarker = mapMarkers.splice(selectedStop, 1)[0];
+    if (removedMarker) removedMarker.setMap(null);
+    document.getElementById('card').hidden = true;
+    renderCity();
+    renderStopList();
+    refreshMapMarkerIndexes();
+    if(mapsInstance) drawGreenRoute();
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+<script>
+function refreshMapMarkerIndexes(){
+  mapMarkers.forEach((marker,i)=>{
+    if(!marker) return;
+    marker.setLabel({text:String(i+1),color:'#fff',fontWeight:'bold'});
+    google.maps.event.clearListeners(marker,'click');
+    marker.addListener('click',()=>showPlace(i));
+  });
+}
+
+function enableJourneyDrag() {
+  // This page's real list is #stopList, not #journeyList.
+  const list = document.getElementById('stopList');
+  if (!list || typeof Sortable === 'undefined') {
+    console.warn('Stop list or SortableJS not found');
+    return;
+  }
+  new Sortable(list, {
+    animation: 220,
+    draggable: '.stop-item',
+    scroll: true,
+    scrollSensitivity: 70,
+    scrollSpeed: 12,
+    delayOnTouchOnly: true,
+    delay: 220,
+    touchStartThreshold: 5,
+    ghostClass: 'stop-ghost',
+    chosenClass: 'stop-chosen',
+    onEnd(evt) {
+      const {oldIndex, newIndex} = evt;
+      if (oldIndex == null || newIndex == null || oldIndex === newIndex) return;
+      const move = arr => { const item=arr.splice(oldIndex,1)[0]; arr.splice(newIndex,0,item); };
+      move(spots);
+      move(preciseAddresses);
+      if(geocodedPositions.length===spots.length) move(geocodedPositions);
+      // Markers are position-bound; move them with their places.
+      if(mapMarkers.length===spots.length) move(mapMarkers);
+      document.getElementById('card').hidden=true;
+      selectedPlaceIndex=null;
+      renderCity();
+      renderStopList();
+      if(mapsInstance){ refreshMapMarkerIndexes(); drawGreenRoute(); }
+    }
+  });
+}
+enableJourneyDrag();
+</script>
+
+
+
+<script>
+// Route mode never overwrites the order manually set in the stop list.
+let greenRouteMode = 'manual';
+let currentRouteRequest = 0;
+let greenRouteLines = [];
+let routeShownOrder = [];
+
+function routeAddress(i) {
+  return preciseAddresses[i] || spots[i]?.query || spots[i]?.name;
+}
+function routeSetStatus(message) {
+  document.getElementById('routeStatus').textContent = message;
+}
+function clearGreenRoute() {
+  greenRouteLines.forEach(line => line.setMap(null));
+  greenRouteLines = [];
+}
+function setGreenRouteMode(mode) {
+  greenRouteMode = mode;
+  document.getElementById('routeManual').classList.toggle('active', mode === 'manual');
+  document.getElementById('routeFast').classList.toggle('active', mode === 'fast');
+  if (mapsInstance) drawGreenRoute();
+  else routeSetStatus('请先连接 Google Maps，才能计算真实道路路线。');
+}
+document.getElementById('routeManual').addEventListener('click', () => setGreenRouteMode('manual'));
+document.getElementById('routeFast').addEventListener('click', () => setGreenRouteMode('fast'));
+
+async function drawGreenRoute() {
+  const requestId = ++currentRouteRequest;
+  if (!mapsInstance || !window.google?.maps?.importLibrary) return;
+  clearGreenRoute();
+  if (spots.length < 2) {
+    document.getElementById('routeSummary').textContent = '请先添加至少两个目的地。';
+    routeSetStatus('至少需要两个地点。');
+    return;
+  }
+  // The Routes API supports at most 25 intermediate stopover waypoints.
+  if (spots.length > 27) {
+    document.getElementById('routeSummary').textContent = '地点超过 27 个，请分成多段规划。';
+    routeSetStatus('单次路线最多支持 27 个地点。');
+    return;
+  }
+
+  routeSetStatus('正在通过 Routes API 计算绿色步行路线…');
+  document.getElementById('routeSummary').textContent = '路线计算中…';
+  try {
+    const {Route} = await google.maps.importLibrary('routes');
+    if (requestId !== currentRouteRequest) return;
+    const stops = spots.map((_,i) => routeAddress(i));
+    const optimize = greenRouteMode === 'fast' && stops.length > 2;
+    const request = {
+      origin: stops[0],
+      destination: stops[stops.length - 1],
+      intermediates: stops.slice(1, -1).map(address => ({location: address})),
+      travelMode: 'WALKING',
+      optimizeWaypointOrder: optimize,
+      polylineQuality: 'HIGH_QUALITY',
+      fields: [
+        'path', 'distanceMeters', 'durationMillis',
+        ...(optimize ? ['optimizedIntermediateWaypointIndices'] : [])
+      ]
+    };
+    const response = await Route.computeRoutes(request);
+    if (requestId !== currentRouteRequest) return;
+    const route = response.routes?.[0];
+    if (!route || !route.path?.length) throw new Error('Google 没有返回可绘制的步行路线。');
+
+    // Draw a subtle pale outline and a forest-green route on actual walkable streets.
+    // Route.path is returned by Google, not a straight line between pins.
+    const path = route.path.map(point => ({lat: point.lat, lng: point.lng}));
+    greenRouteLines = [
+      new google.maps.Polyline({map:mapsInstance,path,strokeColor:'#EDF1DD',strokeOpacity:0.95,strokeWeight:10,zIndex:3}),
+      new google.maps.Polyline({map:mapsInstance,path,strokeColor:'#527A5E',strokeOpacity:0.96,strokeWeight:6,zIndex:4})
+    ];
+    const indices = optimize && Array.isArray(route.optimizedIntermediateWaypointIndices)
+      ? route.optimizedIntermediateWaypointIndices
+      : stops.slice(1,-1).map((_,i) => i);
+    routeShownOrder = [0, ...indices.map(i => i+1), stops.length-1];
+
+    const distanceKm = (route.distanceMeters || 0) / 1000;
+    const minutes = Math.round((route.durationMillis || 0) / 60000);
+    const timeLabel = minutes >= 60
+      ? `${Math.floor(minutes/60)} 小时 ${minutes%60} 分钟`
+      : `${minutes} 分钟`;
+    document.getElementById('routeSummary').textContent =
+      `约 ${distanceKm.toFixed(1)} km · 步行 ${timeLabel}（不含逛店时间）`;
+    routeSetStatus(optimize
+      ? '已尝试优化中途站点；首末站固定。不会修改左侧手动排序。'
+      : '路线依照左侧 Stop 顺序；首末站固定。');
+
+    // The displayed marker numbers indicate the computed visit order.
+    const orderNumber = new Map(routeShownOrder.map((stop, index) => [stop,index+1]));
+    mapMarkers.forEach((marker,i) => marker?.setLabel({
+      text: String(orderNumber.get(i) || i+1), color:'#fff',fontWeight:'bold'
+    }));
+    const bounds = new google.maps.LatLngBounds();
+    path.forEach(point => bounds.extend(point));
+    mapsInstance.fitBounds(bounds, {top:80,right:320,bottom:70,left:290});
+  } catch(error) {
+    if (requestId !== currentRouteRequest) return;
+    console.error('Routes API failure:', error);
+    document.getElementById('routeSummary').textContent = '尚未生成绿色步行路线。';
+    routeSetStatus('路线计算失败：' + (error?.message || String(error)) + '。请检查 Routes API、结算及地点地址。');
+  }
+}
+</script>
+</body></html>
